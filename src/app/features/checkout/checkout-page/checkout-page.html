@@ -1,0 +1,86 @@
+{{ form.value | json }}
+<form class="checkout-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    @if (showSummary && form.invalid) {
+        <div class="error-summary" role="status">
+            <p>Per favore, correggi gli errori evidenziati prima di procedere.</p>
+        </div>
+    }
+
+    <h1>Checkout</h1>
+
+    <div formGroupName="customer">
+        <H2>Informazioni cliente</H2>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="firstName" required>
+            @if (hasError('customer.firstName', 'required')) {
+                <mat-error>Il nome è obbligatorio.</mat-error>
+            }
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Cognome</mat-label>
+            <input matInput formControlName="lastName" required>
+            @if (hasError('customer.lastName', 'required')) {
+                <mat-error>Il cognome è obbligatorio.</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" required>
+            @if (hasError('customer.email', 'required')) {
+                <mat-error>L'email è obbligatoria.</mat-error>
+            }
+            @if (hasError('customer.email', 'email')) {
+                <mat-error>Inserisci un'email valida.</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <div formGroupName="address">
+        <H2>Indirizzo di spedizione</H2>
+    
+        <mat-form-field appearance="fill">
+            <mat-label>Via</mat-label>
+            <input matInput formControlName="street" required>
+            @if (hasError('address.street', 'required')) {
+                <mat-error>La via è obbligatoria.</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Città</mat-label>
+            <input matInput formControlName="city" required>
+            @if (hasError('address.city', 'required')) {
+                <mat-error>La città è obbligatoria.</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>CAP</mat-label>
+            <input matInput formControlName="zip" required>
+            @if (hasError('address.zip', 'required')) {
+                <mat-error>Il CAP è obbligatorio.</mat-error>
+            }
+            @if (hasError('address.zip', 'pattern')) {
+                <mat-error>Inserisci un CAP valido.</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <mat-select formControlName="shippingMethod" placeholder="Metodo di spedizione" required>
+        <mat-option value="standard">Standard - Gratis</mat-option>
+        <mat-option value="express">Espressa - 10€</mat-option>
+    </mat-select>
+
+    <mat-checkbox formControlName="privacy" required>
+        Accetto l'informativa sulla privacy
+    </mat-checkbox>
+
+    <button mat-raised-button color="primary" type="submit">
+        Completa l'ordine
+    </button>
+    
+</form>
